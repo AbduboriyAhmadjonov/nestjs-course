@@ -1,4 +1,17 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { BlogController } from './blog.controller';
+import { BlogService } from './blog.service';
 
-@Module({})
-export class BlogModule {}
+import { LoggerMiddleware } from './logger.middleware';
+
+@Module({
+  controllers: [BlogController],
+  providers: [BlogService],
+  exports: [],
+  imports: [],
+})
+export class BlogModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes(BlogController);
+  }
+}
