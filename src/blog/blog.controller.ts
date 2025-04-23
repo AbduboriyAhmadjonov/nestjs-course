@@ -29,7 +29,7 @@ export class BlogController {
 
   @HttpCode(201)
   @Post('/create')
-  async create(dto: Omit<BlogDto, 'id'>) {
+  async create(@Body() dto: BlogDto) {
     return this.blogService.create(dto);
   }
 
